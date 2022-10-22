@@ -1,8 +1,7 @@
-sudo pacman -R iptables	# Remove iptables, which is incompatible with iptables-nft, a dependency of kubelet
-sudo pacman -Sy iptables-nft
+PACMANCMD=sudo pacman --noconfirm
 
 # Install CRI-O
-sudo pacman -S cri-o crun
+$PACMANCMD -S cri-o crun
 sudo sed -i -E 's/^#\s*default_runtime = .+/default_runtime = "crun"/' /etc/crio/crio.conf
 cat << EOF > 01-crio-crun.conf
 [crio.runtime.runtimes.crun]
@@ -17,7 +16,7 @@ sudo systemctl start crio
 sudo systemctl enable crio
 
 # Install kube binaries
-sudo pacman -S kubelet kubeadm kubectl
+$PACMANCMD -S kubelet kubeadm kubectl
 sudo modprobe br_netfilter
 
 sudo systemctl enable kubelet.service
