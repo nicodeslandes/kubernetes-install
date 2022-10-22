@@ -18,6 +18,7 @@ sudo systemctl enable crio
 
 # Install kube binaries
 sudo pacman -S kubelet kubeadm kubectl
+sudo modprobe br_netfilter
 
 sudo systemctl enable kubelet.service
 
